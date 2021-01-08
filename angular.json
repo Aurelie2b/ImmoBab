@@ -52,6 +52,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -148,5 +149,8 @@
       }
     }
   },
-  "defaultProject": "monAgenceImmo"
+  "defaultProject": "monAgenceImmo",
+  "cli": {
+    "analytics": "ebd558b6-463c-4a65-a6fc-2ad2206acc4f"
+  }
 }
