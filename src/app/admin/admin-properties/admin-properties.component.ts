@@ -41,7 +41,7 @@ export class AdminPropertiesComponent implements OnInit {
       rooms: ['', Validators.required],
       description: '',
       price: ['', Validators.required],
-
+      sold: ''
     });
   }
 
@@ -79,6 +79,7 @@ export class AdminPropertiesComponent implements OnInit {
     this.propertiesForm.get('rooms')?.setValue(property.rooms);
     this.propertiesForm.get('description')?.setValue(property.description);
     this.propertiesForm.get('price')?.setValue(property.price);
+    this.propertiesForm.get('sold')?.setValue(property.sold);
     const index = this.properties.findIndex(
       (propertyEL) => {
         if (propertyEL === property){

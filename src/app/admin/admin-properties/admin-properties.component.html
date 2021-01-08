@@ -19,6 +19,10 @@
         {{ property.category }} <span *ngIf="property.surface && property.romms !== ''"> de {{ property.surface }} m2</span>  <span *ngIf="property.rooms && property.rooms !== ''">, {{ property.rooms }} pièce(s).</span>
       </p>
       <p *ngIf="property.price && property.price !== ''"> {{ property.price }}€</p>
+      <p>
+        <span *ngIf="!property.sold" class="text-danger">À vendre</span>
+        <span *ngIf="property.sold" class="text-success">Vendu !</span>
+      </p>
     </div>
   </div>
 </div>
@@ -60,6 +64,13 @@
           </div>
           <div class="form-group">
             <input type="number" placeholder="Prix" class="form-control" formControlName="price">
+          </div>
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch1" formControlName="sold">
+            <label class="custom-control-label" for="customSwitch1">
+              <span class="text-success" *ngIf="propertiesForm.value.sold">Vendu</span>
+              <span class="text-danger" *ngIf="!propertiesForm.value.sold">À vendre</span>
+            </label>
           </div>
         </div>
         <div class="modal-footer">
