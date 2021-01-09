@@ -16,7 +16,7 @@
         </div>
       </div>
       <p>
-        {{ property.category }} <span *ngIf="property.surface && property.romms !== ''"> de {{ property.surface }} m2</span>  <span *ngIf="property.rooms && property.rooms !== ''">, {{ property.rooms }} pièce(s).</span>
+        {{ property.category }} <span *ngIf="property.surface && property.rooms !== ''"> de {{ property.surface }} m2</span>  <span *ngIf="property.rooms && property.rooms !== ''">, {{ property.rooms }} pièce(s).</span>
       </p>
       <p *ngIf="property.price && property.price !== ''"> {{ property.price }}€</p>
       <p>
