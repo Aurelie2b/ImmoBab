@@ -8,21 +8,28 @@
   <hr class="mt-1 mb-5 bg-light">
   <div class="row">
     <div *ngFor="let property of properties; let i = index" class="col-12 shadow sm p-4 mb-3 bg-light">
-      <div class="d-flex">
-        <h3 class="font-weight-normal">{{property.title }}</h3>
-        <div class="ml-auto">
-          <button class="btn btn-primary m-1" type="button" (click)="onEditProperty(property)"><i class="fas fa-edit"></i></button>
-          <button class="btn btn-danger m-1" type="button" (click)="onDeleteProperty(i)"><i class="fas fa-trash-alt"></i></button>
+      <div class="row">
+        <div class="col-3">
+          <img *ngIf="property.picture && property.picture !== ''" [src]="property.picture" alt="picture" class="w-100">
+        </div>
+        <div class="col-9">
+          <div class="d-flex">
+            <h3 class="font-weight-normal">{{property.title }}</h3>
+            <div class="ml-auto">
+              <button class="btn btn-primary m-1" type="button" (click)="onEditProperty(property)"><i class="fas fa-edit"></i></button>
+              <button class="btn btn-danger m-1" type="button" (click)="onDeleteProperty(i)"><i class="fas fa-trash-alt"></i></button>
+            </div>
+          </div>
+          <p>
+            {{ property.category }} <span *ngIf="property.surface && property.rooms !== ''"> de {{ property.surface }} m2</span>  <span *ngIf="property.rooms && property.rooms !== ''">, {{ property.rooms }} pièce(s).</span>
+          </p>
+          <p *ngIf="property.price && property.price !== ''"> {{ property.price }}€</p>
+          <p>
+            <span *ngIf="!property.sold" class="text-danger">À vendre</span>
+            <span *ngIf="property.sold" class="text-success">Vendu !</span>
+          </p>
         </div>
       </div>
-      <p>
-        {{ property.category }} <span *ngIf="property.surface && property.rooms !== ''"> de {{ property.surface }} m2</span>  <span *ngIf="property.rooms && property.rooms !== ''">, {{ property.rooms }} pièce(s).</span>
-      </p>
-      <p *ngIf="property.price && property.price !== ''"> {{ property.price }}€</p>
-      <p>
-        <span *ngIf="!property.sold" class="text-danger">À vendre</span>
-        <span *ngIf="property.sold" class="text-success">Vendu !</span>
-      </p>
     </div>
   </div>
 </div>
@@ -64,6 +71,24 @@
           </div>
           <div class="form-group">
             <input type="number" placeholder="Prix" class="form-control" formControlName="price">
+          </div>
+          <div *ngIf="pictureUrl && pictureUrl !== ''" class="d-flex mb-3">
+            <img [src]="pictureUrl" alt="picture" class="w-50 mx-auto">
+          </div>
+          <div class="form-row">
+            <div class="col-9">
+              <div class="input-group mb-3">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" (change)="onUploadFile($event)">
+                  <label class="custom-file-label" for="inputGroupFile01">Envoyer une image</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="spinner-border text-primary" role="status" *ngIf="pictureUploading">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
           </div>
           <div class="custom-control custom-switch">
             <input type="checkbox" class="custom-control-input" id="customSwitch1" formControlName="sold">
