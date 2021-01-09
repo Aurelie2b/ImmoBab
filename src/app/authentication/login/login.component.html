@@ -1,0 +1,17 @@
+<div class="container">
+  <h1 class="display-4 mt-5 mb-0">Authentification</h1>
+  <hr class="mt-0 mb5 bg-dark">
+  <div class="col-sm-12 col-md-10 col-lg-8 mx-auto">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmitLoginForm()">
+      <div class="form-gr">
+        <label for="email">Adresse email</label>
+        <input type="email" class="form-control" id="email" placeholder="example@example.com" formControlName="email">
+      </div>
+      <div class="form-gr">
+        <label for="password">Mot de passe</label>
+        <input type="password" class="form-control" id="password" placeholder="Minimum 6 caractères" formControlName="password">
+      </div>
+      <button class="btn btn-primary mt-3" type="submit" [disabled]="loginForm.invalid">Connexion</button>
+    </form>
+  </div>
+</div>
