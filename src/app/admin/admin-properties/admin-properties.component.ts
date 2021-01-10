@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { PropertiesService } from 'src/app/services/properties.service';
-import * as $ from 'jquery';
+import $ from 'jquery';
 import { Property } from 'src/app/interfaces/property';
 
 @Component({
@@ -20,7 +20,7 @@ export class AdminPropertiesComponent implements OnInit {
   editModel = false;
   pictureUploading = false;
   pictureUploaded = false;
-  pictureUrl!: string;
+  picturesAdded: any [] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,7 +53,7 @@ export class AdminPropertiesComponent implements OnInit {
   onSubmitPropertiesForm(){
     const newProperty: Property = this.propertiesForm.value;
     newProperty.sold = this.propertiesForm.get('sold').value ? this.propertiesForm.get('sold').value : false;
-    newProperty.picture = this.pictureUrl ? this.pictureUrl : '';
+    newProperty.pictures = this.picturesAdded ? this.picturesAdded : [];
     if (this.editModel){
       this.propertiesService.updateProperty(newProperty, this.indexToUpdate);
     }else{
@@ -65,7 +65,7 @@ export class AdminPropertiesComponent implements OnInit {
   resetForm(){
     this.propertiesForm.reset();
     this.editModel = false;
-    this.pictureUrl = '';
+    this.picturesAdded = [];
   }
 
   onDeleteProperty(index){
@@ -74,6 +74,11 @@ export class AdminPropertiesComponent implements OnInit {
   }
 
   onConfirmDeleteProperty(){
+    this.properties[this.indexToRemove].pictures?.forEach(
+      (picture) => {
+        this.propertiesService.removeFile(picture);
+      }
+    );
     this.propertiesService.deleteProperty(this.indexToRemove);
     $('#deletePropertyModal').modal('hide');
   }
@@ -85,10 +90,10 @@ export class AdminPropertiesComponent implements OnInit {
     this.propertiesForm.get('category')?.setValue(property.category);
     this.propertiesForm.get('surface')?.setValue(property.surface);
     this.propertiesForm.get('rooms')?.setValue(property.rooms);
-    this.propertiesForm.get('description')?.setValue(property.description);
+    this.propertiesForm.get('description')?.setValue(property.description ? property.description : '');
     this.propertiesForm.get('price')?.setValue(property.price);
     this.propertiesForm.get('sold')?.setValue(property.sold);
-    this.pictureUrl = property.picture ? property.picture : '';
+    this.picturesAdded = property.pictures ? property.pictures : [];
     const index = this.properties.findIndex(
       (propertyEL) => {
         if (propertyEL === property){
@@ -102,9 +107,10 @@ export class AdminPropertiesComponent implements OnInit {
 
   onUploadFile(event){
     this.pictureUploading = true;
+
     this.propertiesService.uploadFile(event.target.files[0]).then(
       (url: any) => {
-        this.pictureUrl = url;
+        this.picturesAdded.push(url);
         this.pictureUploading = false;
         this.pictureUploaded = true;
         setTimeout(() => {
@@ -112,6 +118,11 @@ export class AdminPropertiesComponent implements OnInit {
         }, 5000);
       }
     );
+  }
+
+  onRemoveAddedPicture(index){
+    this.propertiesService.removeFile(this.picturesAdded[index]);
+    this.picturesAdded.splice(index, 1);
   }
 
 }

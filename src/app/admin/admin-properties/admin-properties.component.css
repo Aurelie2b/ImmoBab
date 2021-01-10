@@ -1,0 +1,9 @@
+.deletePicture {
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.deletePicture i {
+  font-size: 20px;
+}

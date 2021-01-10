@@ -1,15 +1,22 @@
 <div class="container">
+  <h1 class="display-4">Nos biens immobiliers</h1>
   <div class="row mt-5">
-    <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let property of properties">
-      <div class="card" style="width: 18rem;">
+    <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let property of properties, let i = index">
+      <div class="card h-100" style="width: 18rem;">
+        <div *ngFor="let picture of property.pictures; let first = first">
+          <img [src]="picture" *ngIf="first" alt="picture" class="card-img-top">
+        </div>
         <div class="card-body">
           <h5 class="card-title">{{ property.title }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{ property.category }}</h6>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <h6 class="card-subtitle mb-2 text-muted">{{ property.category }} <span *ngIf="property.surface && property.rooms !== ''"> de {{ property.surface }} m2</span>  <span *ngIf="property.rooms && property.rooms !== ''">, {{ property.rooms }} pièce(s)</span></h6>
+          <p class="card-text">
+            {{ property.price }} €
+          </p>
           <p [ngStyle]="{color: getSoldValue(property.sold)}">
             <span *ngIf="!property.sold">À vendre</span>
             <span *ngIf="property.sold">Vendu!</span>
           </p>
+          <div class="text-center btn btn-primary" type="button" [routerLink]="['/property', i]">Voir ce bien</div>
         </div>
       </div>
     </div>

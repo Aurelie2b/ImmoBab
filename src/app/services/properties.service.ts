@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Property } from '../interfaces/property';
 import firebase from 'firebase';
-import { resolve } from 'dns';
-import { rejects } from 'assert';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +27,23 @@ export class PropertiesService {
       this.properties = data.val() ? data.val() : [];
       this.emitProperties();
     });
+  }
+
+  getSinglePropertie(id){
+    return new Promise(
+      (resolve, reject) => {
+        firebase.database().ref('/properties/' + id).once('value').then(
+          (data) => {
+            resolve(data.val());
+          }
+        ).catch(
+          (error) => {
+            console.error(error);
+            reject(error);
+          },
+        );
+      }
+    );
   }
 
   createProperty(property: Property) {
@@ -75,6 +90,22 @@ export class PropertiesService {
           );
       }
     );
+  }
+
+  removeFile(filelink: string){
+    if (filelink) {
+      const storageRef = firebase.storage().refFromURL(filelink);
+      storageRef.delete().then(
+        () => {
+          console.log('file deleted');
+        }
+      ).catch(
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
+
   }
 
 }

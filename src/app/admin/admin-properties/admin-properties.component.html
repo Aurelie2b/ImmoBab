@@ -10,7 +10,9 @@
     <div *ngFor="let property of properties; let i = index" class="col-12 shadow sm p-4 mb-3 bg-light">
       <div class="row">
         <div class="col-3">
-          <img *ngIf="property.picture && property.picture !== ''" [src]="property.picture" alt="picture" class="w-100">
+          <div *ngFor="let picture of property.pictures; let first = first">
+            <img *ngIf="first" [src]="picture" alt="picture" class="w-100">
+          </div>
         </div>
         <div class="col-9">
           <div class="d-flex">
@@ -70,10 +72,15 @@
             <textarea class="form-control w-100" rows="4" placeholder="Description du bien" formControlName="description"></textarea>
           </div>
           <div class="form-group">
-            <input type="number" placeholder="Prix" class="form-control" formControlName="price">
+            <input type="text" placeholder="Prix" class="form-control" formControlName="price">
           </div>
-          <div *ngIf="pictureUrl && pictureUrl !== ''" class="d-flex mb-3">
-            <img [src]="pictureUrl" alt="picture" class="w-50 mx-auto">
+          <div class="row">
+            <div *ngFor="let picture of picturesAdded; let i = index" class="col-4 border border-dark rounded m-1 p-1 bg-light position-relative">
+              <span class="text-danger position-absolute mr-1 deletPicture" (click)="onRemoveAddedPicture(i)">
+                <i class="fas fa-times"></i>
+              </span>
+              <img [src]="picture" alt="picture" class="w-100">
+            </div>
           </div>
           <div class="form-row">
             <div class="col-9">
